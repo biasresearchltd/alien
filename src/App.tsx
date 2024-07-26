@@ -47,7 +47,7 @@ function App() {
 		</div>
 		<div className="footer">
 		  <b>23836</b> entries in <i>Alien</i> | <a href="#"><i>Alien</i></a> | <a href="#"><i>Up</i></a> | <a href="#"><i>Search</i></a> | <a href="#"><i>Mail</i></a> | <a href="#"><i>Add</i></a> | <a href="#"><i>Help</i></a>
-		  <p><a href="mailto:bias@biasresearch.ltd">[email protected]</a></p>
+		  <p><a href="mailto:">[email protected]</a></p>
 		  <p>Copyright © 1994 Antimeme and Bias Research Ltd.</p>
 		</div>
 	  </div>

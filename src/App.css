@@ -76,16 +76,6 @@ h1 {
   align-items: center;
 }
 
-/* .categories li {
-  font-size: 19px;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  transform: scaleY(1.666);
-  text-transform: uppercase;
-} */
-
 .categories li::before {
   content: "•";
   color: black;
@@ -109,6 +99,7 @@ h1 {
 }
 
 .menu {
+  border: 3px blue solid;
   vertical-align: middle;
   margin: 0;
   image-rendering: pixelated; /* Modern browsers */
@@ -143,3 +134,66 @@ h1 {
 .footer p {
   font-style: italic;
 }
+
+@keyframes fluctuateBlur {
+  0% {
+    filter: blur(3px);
+  }
+  50% {
+    filter: blur(6px);
+  }
+  100% {
+    filter: blur(2px);
+  }
+}
+
+@keyframes randomBlur {
+  0% {
+    filter: blur(3px);
+  }
+  20% {
+    filter: blur(6px);
+  }
+  35% {
+    filter: blur(4px);
+  }
+  50% {
+    filter: blur(8px);
+  }
+  65% {
+    filter: blur(5px);
+  }
+  80% {
+    filter: blur(7px);
+  }
+  100% {
+    filter: blur(3px);
+  }
+}
+
+.alien-title {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  overflow: visible; /* Allows the blur to extend beyond the container */
+}
+
+.alien-text {
+  transition: filter 0.3s ease-in-out;
+  filter: blur(0); /* Initial state with no blur */
+}
+
+.alien-title:hover .alien-text {
+  animation: randomBlur 3s infinite ease-in-out;
+}
+
+
+
+h1 {
+  display: flex;
+  align-items: center;
+  font-size: 32px;
+  margin-bottom: 15px;
+  line-height: 1; /* Ensures h1 content aligns properly */
+}
+

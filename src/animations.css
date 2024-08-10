@@ -1,0 +1,37 @@
+/* animations.css */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.666s forwards;
+  animation-fill-mode: forwards;
+}
+
+.category-item {
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.count {
+  font-style: italic;
+  color: black;
+  margin-left: 5px;
+}
+
+.new-badge {
+  margin-left: 5px;
+  vertical-align: middle;
+  image-rendering: pixelated; /* Modern browsers */
+  image-rendering: crisp-edges; /* For some older browsers */
+  image-rendering: -moz-crisp-edges; /* Firefox */
+  image-rendering: -webkit-optimize-contrast; /* Safari */
+  image-rendering: optimize-contrast; /* CSS3 proposed value */
+  -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+}

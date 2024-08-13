@@ -10,7 +10,7 @@
 
 .fade-in {
   opacity: 0;
-  animation: fadeIn 0.666s forwards;
+  animation: fadeIn 0.1666s forwards;
   animation-fill-mode: forwards;
 }
 

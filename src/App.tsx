@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
+import './animations.css';
 import Breadcrumb from './Breadcrumb';
 import CategoryPage from './CategoryPage';
 import NewPage from './NewPage';
 import CoolPage from './CoolPage';
 import PopularPage from './PopularPage';
 import StatsPage from './StatsPage';
-import { categories, Category } from './data/categories';
+import InteractiveMenu from './InteractiveMenu';
+import { categories, Category, getCategoryById } from './data/categories';
 
 const App: React.FC = () => {
-  const [path, setPath] = useState<Category[]>([]);
+  const [path, setPath] = useState<string[]>([]);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const handleNavigate = (category: Category) => {
-	setPath([...path, category]);
+  const handleNavigate = (categoryId: string) => {
+	setPath([...path, categoryId]);
   };
 
   const handleBreadcrumbClick = (index: number) => {
@@ -21,16 +24,36 @@ const App: React.FC = () => {
   };
 
   const handleReset = () => {
-	setPath([]); // Reset the path to the top of the category list
+	setPath([]);
   };
 
-  const currentCategory: Category = path.length
-	? path[path.length - 1]
-	: { name: 'Home', subcategories: categories };
+  const currentCategory: Category | undefined = path.length
+	? getCategoryById(path[path.length - 1])
+	: undefined;
 
   const displayText = path.length
-	? path.map(category => category.name).join(' > ')
+	? currentCategory?.name || 'Unknown Category'
 	: 'A Guide to WWW';
+
+  const MainContent: React.FC = () => (
+	<div className="categories fade-in">
+	  <ul>
+		{categories.map((category, index) => (
+		  <li 
+			key={category.id} 
+			className="category-item fade-in"
+			style={{ animationDelay: `${index * 0.05}s` }}
+		  >
+			<Link to={`/category/${category.id}`} onClick={() => handleNavigate(category.id)}>
+			  {category.name}
+			</Link>
+			<span className="count">({category.count})</span>
+			{category.isNew && <img src="/new.gif" alt="New" className="new-badge" />}
+		  </li>
+		))}
+	  </ul>
+	</div>
+  );
 
   return (
 	<Router>
@@ -48,7 +71,7 @@ const App: React.FC = () => {
 			<button>Stop</button>
 		  </div>
 		  <div className="search-bar">
-			<input type="text" placeholder="Search" />
+			<input type="text" placeholder="Search" ref={searchInputRef} id="search-input" />
 		  </div>
 		</div>
 		<div className="main-content">
@@ -56,7 +79,7 @@ const App: React.FC = () => {
 			<Link to="/" onClick={handleReset} className="alien-title">
 			  <span className="alien-text">Alien</span>
 			</Link>
-			- {displayText}
+			&nbsp;- {displayText}
 		  </h1>
 		  <Breadcrumb path={path} onClick={handleBreadcrumbClick} />
 		  <div className="sub-links">
@@ -67,24 +90,24 @@ const App: React.FC = () => {
 			<Link to="/stats">Stats</Link> | 
 			<Link to="/random">A Random Link</Link>]
 		  </div>
-		  <img src="/menu.gif" alt="Menu" className="menu" />
+		  <InteractiveMenu />
 		  <Routes>
-			<Route path="/" element={
+			<Route path="/" element={<MainContent />} />
+			<Route path="/category/:categoryId" element={
 			  <CategoryPage
-				category={currentCategory}
+				category={currentCategory?.id || ''}
 				onNavigate={handleNavigate}
 			  />
 			} />
-			<Route path="/new" element={<NewPage />} />
-			<Route path="/cool" element={<CoolPage />} />
-			<Route path="/popular" element={<PopularPage />} />
+			<Route path="/new" element={<NewPage onNavigate={handleNavigate} />} />
+			<Route path="/cool" element={<CoolPage onNavigate={handleNavigate} />} />
+			<Route path="/popular" element={<PopularPage onNavigate={handleNavigate} />} />
 			<Route path="/stats" element={<StatsPage />} />
-			<Route path="/random" element={<div>Showing a Random Link</div>} />
 		  </Routes>
 		</div>
 		<div className="footer">
 		  <b>23836</b> entries in <i>Alien</i> | <Link to="#"><i>Alien</i></Link> | <Link to="#"><i>Up</i></Link> | <Link to="#"><i>Search</i></Link> | <Link to="#"><i>Mail</i></Link> | <Link to="#"><i>Add</i></Link> | <Link to="#"><i>Help</i></Link>
-		  <p><a href="mailto:">[email protected]</a></p>
+		  <p><a href="mailto:feedback@alien.com">feedback@alien.com</a></p>
 		  <p>Copyright © 1994 Antimeme and Bias Research Ltd.</p>
 		</div>
 	  </div>

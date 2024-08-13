@@ -1,20 +1,25 @@
 import React from 'react';
-import { categories } from './data/categories';
+import { Link } from 'react-router-dom';
+import { categories, Category } from './data/categories';
 
-const PopularPage: React.FC = () => {
-  const popularCategories = categories
-	.filter(category => category.count !== undefined)
-	.sort((a, b) => (b.count || 0) - (a.count || 0))
-	.slice(0, 10);
+interface PopularPageProps {
+  onNavigate: (categoryId: string) => void;
+}
+
+const PopularPage: React.FC<PopularPageProps> = ({ onNavigate }) => {
+  // Assuming we have a way to determine popular categories
+  const popularCategories = categories.filter(category => category.count > 1000);
 
   return (
 	<div className="category-page">
 	  <h2>What's Popular?</h2>
 	  <div className="categories">
 		<ul>
-		  {popularCategories.map((category, index) => (
-			<li key={index}>
-			  <a href="#">{category.name}</a>
+		  {popularCategories.map((category: Category) => (
+			<li key={category.id}>
+			  <Link to={`/category/${category.id}`} onClick={() => onNavigate(category.id)}>
+				{category.name}
+			  </Link>
 			  <span className="count">({category.count})</span>
 			  {category.isNew && <img src="/new.gif" alt="New" className="new" />}
 			</li>

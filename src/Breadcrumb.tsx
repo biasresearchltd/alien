@@ -1,19 +1,26 @@
 import React from 'react';
-import { Category } from './data/categories';
+import { Link } from 'react-router-dom';
+import { getCategoryById } from './data/categories';
 
 interface BreadcrumbProps {
-  path: Category[];
+  path: string[];
   onClick: (index: number) => void;
 }
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ path, onClick }) => {
   return (
 	<div className="breadcrumb">
-	  {path.map((category, index) => (
-		<span key={index} onClick={() => onClick(index)}>
-		  {category.name} {index < path.length - 1 && '>'}
-		</span>
-	  ))}
+	  {path.map((categoryId, index) => {
+		const category = getCategoryById(categoryId);
+		return (
+		  <span key={categoryId}>
+			<Link to={`/category/${categoryId}`} onClick={() => onClick(index)}>
+			  {category ? category.name : 'Unknown'}
+			</Link>
+			{index < path.length - 1 && ' > '}
+		  </span>
+		);
+	  })}
 	</div>
   );
 };

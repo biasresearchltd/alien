@@ -1,19 +1,25 @@
 import React from 'react';
-import { categories } from './data/categories';
+import { Link } from 'react-router-dom';
+import { getAllNewCategories } from './data/categories';
 
-const NewPage: React.FC = () => {
-  const newCategories = categories.filter(category => category.isNew);
+interface NewPageProps {
+  onNavigate: (categoryId: string) => void;
+}
+
+const NewPage: React.FC<NewPageProps> = ({ onNavigate }) => {
+  const newCategories = getAllNewCategories();
 
   return (
 	<div className="category-page">
 	  <h2>What's New?</h2>
 	  <div className="categories">
 		<ul>
-		  {newCategories.map((category, index) => (
-			<li key={index}>
-			  <a href="#">{category.name}</a>
+		  {newCategories.map((category) => (
+			<li key={category.id}>
+			  <Link to={`/category/${category.id}`} onClick={() => onNavigate(category.id)}>
+				{category.name}
+			  </Link>
 			  <span className="count">({category.count})</span>
-			  {category.isNew && <img src="/new.gif" alt="New" className="new" />}
 			</li>
 		  ))}
 		</ul>

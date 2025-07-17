@@ -1,13 +1,16 @@
 // src/data/posts.ts
 
-import { Category } from './categories';
-
 export interface BasePost {
   id: string;
   title: string;
   type: 'essay' | 'movie' | 'image' | 'carousel';
   categoryId: string;
   votes: number;
+  responseToId?: string; // ID of the parent post, if this is a response
+  responses?: string[]; // IDs of response posts to this post
+  createdAt: number; // Timestamp for when post was created
+  authorId?: string; // User ID of the author (optional)
+  authorName?: string; // Username of the author (optional)
 }
 
 export interface EssayPost extends BasePost {
@@ -41,7 +44,10 @@ export const examplePosts: Post[] = [
 	type: 'essay',
 	categoryId: 'art-painting',
 	votes: 120,
-	content: 'Modern art has undergone significant transformations over the past century. From the bold strokes of impressionism to the mind-bending perspectives of cubism, artists have continually pushed the boundaries of visual expression...'
+	content: 'Modern art has undergone significant transformations over the past century. From the bold strokes of impressionism to the mind-bending perspectives of cubism, artists have continually pushed the boundaries of visual expression...',
+	responses: [],
+	createdAt: 1615482000000, // March 11, 2021
+	authorName: 'ArtEnthusiast'
   },
   {
 	id: '2',
@@ -50,7 +56,10 @@ export const examplePosts: Post[] = [
 	categoryId: 'entertainment-movies',
 	votes: 95,
 	videoUrl: 'https://www.youtube.com/embed/YoHD9XEInc0',
-	description: 'Inception is a 2010 science fiction action film written and directed by Christopher Nolan. The film stars Leonardo DiCaprio as a professional thief with the rare ability to extract information from people\'s minds while they are dreaming.'
+	description: 'Inception is a 2010 science fiction action film written and directed by Christopher Nolan. The film stars Leonardo DiCaprio as a professional thief with the rare ability to extract information from people\'s minds while they are dreaming.',
+	responses: [],
+	createdAt: 1615568400000, // March 12, 2021
+	authorName: 'MovieBuff'
   },
   {
 	id: '3',
@@ -59,7 +68,10 @@ export const examplePosts: Post[] = [
 	categoryId: 'art-photography',
 	votes: 87,
 	imageUrl: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80',
-	description: 'The golden hour, just after sunrise or before sunset, provides photographers with a magical quality of light that can transform ordinary scenes into extraordinary images.'
+	description: 'The golden hour, just after sunrise or before sunset, provides photographers with a magical quality of light that can transform ordinary scenes into extraordinary images.',
+	responses: [],
+	createdAt: 1615654800000, // March 13, 2021
+	authorName: 'PhotoPro'
   },
   {
 	id: '4',
@@ -71,7 +83,10 @@ export const examplePosts: Post[] = [
 	  { url: 'https://images.unsplash.com/photo-1578255783530-b461a7a99243?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80', caption: 'The David by Michelangelo' },
 	  { url: 'https://images.unsplash.com/photo-1590562177087-ca6af9bb82ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80', caption: 'The Thinker by Auguste Rodin' },
 	  { url: 'https://images.unsplash.com/photo-1623113562225-694f6a2ee75e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80', caption: 'Venus de Milo at the Louvre' }
-	]
+	],
+	responses: [],
+	createdAt: 1615741200000, // March 14, 2021
+	authorName: 'ArtHistorian'
   },
   {
 	id: '5',
@@ -79,7 +94,10 @@ export const examplePosts: Post[] = [
 	type: 'essay',
 	categoryId: 'business',
 	votes: 78,
-	content: 'Artificial Intelligence is revolutionizing the way businesses operate. From predictive analytics to automated customer service, AI is enhancing efficiency and opening new possibilities across various industries...'
+	content: 'Artificial Intelligence is revolutionizing the way businesses operate. From predictive analytics to automated customer service, AI is enhancing efficiency and opening new possibilities across various industries...',
+	responses: [],
+	createdAt: 1615827600000, // March 15, 2021
+	authorName: 'TechTrends'
   },
   {
 	id: '6',
@@ -88,7 +106,10 @@ export const examplePosts: Post[] = [
 	categoryId: 'science-physics',
 	votes: 112,
 	videoUrl: 'https://www.youtube.com/embed/JhHMJCUmq28',
-	description: 'This educational video explains the basics of quantum computing, its potential applications, and how it differs from classical computing.'
+	description: 'This educational video explains the basics of quantum computing, its potential applications, and how it differs from classical computing.',
+	responses: [],
+	createdAt: 1615914000000, // March 16, 2021
+	authorName: 'ScienceEnthusiast'
   },
   {
 	id: '7',
@@ -97,7 +118,10 @@ export const examplePosts: Post[] = [
 	categoryId: 'computers-programming',
 	votes: 93,
 	imageUrl: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1465&q=80',
-	description: 'A visual representation of a neural network, showcasing the intricate connections that enable machine learning algorithms to process complex data.'
+	description: 'A visual representation of a neural network, showcasing the intricate connections that enable machine learning algorithms to process complex data.',
+	responses: [],
+	createdAt: 1616000400000, // March 17, 2021
+	authorName: 'DataScientist'
   },
   {
 	id: '8',
@@ -109,7 +133,10 @@ export const examplePosts: Post[] = [
 	  { url: 'https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80', caption: 'Early 8-bit Graphics' },
 	  { url: 'https://images.unsplash.com/photo-1586182987320-4f376d39d787?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80', caption: '3D Graphics Revolution' },
 	  { url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80', caption: 'Modern Hyper-Realistic Graphics' }
-	]
+	],
+	responses: [],
+	createdAt: 1616086800000, // March 18, 2021
+	authorName: 'GameDev'
   }
 ];
 
